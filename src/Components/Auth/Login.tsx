@@ -3,13 +3,51 @@ import Img_Login from "../../assets/Img_login.jpg";
 import Logo from "../../assets/logo.png";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginFailed, loginStart, loginSuccess } from "../../redux/authSlice";
+import { loginAuthApi } from "../../services/modules/auth";
+import { RootState } from "../../redux/store";
+
+interface User {
+  username: string;
+  password: string;
+}
+
 const Login = () => {
   const [showPass, setShowPass] = useState<Boolean>(false);
   const navigate = useNavigate();
+  const [username, setUserName] = useState<string>("");
+  const [password, setPassWord] = useState<string>("");
+  const dispatch = useDispatch();
+  const isLogin = useSelector((state: RootState) => state?.auth?.login);
 
   const handleClick = (path: string) => {
     navigate(`/${path}`);
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const user: User = {
+      username: username,
+      password: password,
+    };
+    dispatch(loginStart());
+    try {
+      const res = await loginAuthApi(user);
+      console.log(res);
+
+      dispatch(loginSuccess(res));
+      localStorage.setItem("accessToken", res.accessToken);
+
+      if (res.user.isTwoFactorAuthenticationEnabled === true && isLogin) {
+        navigate("/auth");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      dispatch(loginFailed());
+    }
   };
 
   return (
@@ -26,13 +64,13 @@ const Login = () => {
                 src={Logo}
                 className="mx-auto w-[120px]"
               />
-              <h2 className="mt-[15px] text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+              <h2 className="mt-[15px] text-center text-2xl font-bold leading-9 tracking-tight text-violet-800">
                 Đăng nhập
               </h2>
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-              <form action="#" method="POST" className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
                     htmlFor="email"
@@ -42,13 +80,14 @@ const Login = () => {
                   </label>
                   <div className="mt-2">
                     <input
-                      id="email"
-                      name="email"
                       type="email"
                       placeholder="Email"
                       required
+                      value={username}
                       autoComplete="email"
+                      onChange={(e) => setUserName(e.target.value)}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
+                      tabIndex={1}
                     />
                   </div>
                 </div>
@@ -73,13 +112,14 @@ const Login = () => {
                   </div>
                   <div className="mt-2 relative">
                     <input
-                      id="password"
-                      name="password"
                       type={showPass ? "text" : "password"}
                       placeholder="password"
                       required
+                      value={password}
                       autoComplete="current-password"
+                      onChange={(e) => setPassWord(e.target.value)}
                       className="block w-full px-[5px] rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      tabIndex={2}
                     />
                     {showPass ? (
                       <FaRegEye

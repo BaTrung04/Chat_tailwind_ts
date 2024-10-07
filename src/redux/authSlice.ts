@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface User {
+  id: string;
+  username: string;
+  img_avatar_url?: string;
+  accessToken: string;
+}
 interface LoginState {
   login: {
     currentUser: null;
@@ -18,7 +24,7 @@ const initialState = {
   },
 } satisfies LoginState as LoginState;
 
-const counterSlice = createSlice({
+const authSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
@@ -71,7 +77,7 @@ const counterSlice = createSlice({
     // },
   },
 });
-
+const { actions, reducer } = authSlice;
 export const {
   loginStart,
   loginFailed,
@@ -79,5 +85,5 @@ export const {
   logOutStart,
   logOutSuccess,
   logOutFailed,
-} = counterSlice.actions;
-export default counterSlice.reducer;
+} = actions;
+export default reducer;
