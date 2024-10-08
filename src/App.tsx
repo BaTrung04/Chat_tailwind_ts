@@ -14,11 +14,14 @@ import LayoutDefault from "./Components/LayoutDefault/LayoutDefault";
 import PrivateRoute from "./routes/PrivateRoute";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
-import Discover from "./Components/Content/discover";
+import Discover from "./Components/Content/Discover";
 import Reels from "./Components/Content/Reels";
 import Notification from "./Components/Content/Notification";
 import Messenger from "./Components/Content/Messenger";
 import PersonalPage from "./Components/Content/PersonalPage";
+import Post from "./Components/Content/comon/Post";
+import Friend from "./Components/Content/comon/Friend";
+import Images from "./Components/Content/comon/Images";
 
 function App() {
   const isLogin = useSelector((state: RootState) => state?.auth?.login);
@@ -48,7 +51,11 @@ function App() {
             <Route path="/reels" element={<Reels />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/messenger" element={<Messenger />} />
-            <Route path="/personal" element={<PersonalPage />} />
+            <Route path="/personal" element={<PersonalPage />}>
+              <Route index element={<Post />} />
+              <Route path="friend" element={<Friend />} />
+              <Route path="images" element={<Images />} />
+            </Route>
           </Route>
         </Routes>
       </Router>

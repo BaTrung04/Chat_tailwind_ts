@@ -31,7 +31,7 @@ const Navbar = () => {
     navigate(`/${page}`);
   };
   return (
-    <div>
+    <div className="z-[999]">
       <div
         className={`xl:w-[220px] lg:w-[70px]  lg:h-[100vh] lg:sticky lg:top-0 border-1 hidden lg:block   ${
           withDiv === true
@@ -75,9 +75,9 @@ const Navbar = () => {
             {/* modal search */}
             {withDiv && (
               <div
-                className={`fixed h-[100%] xl:left-[220px] shadow-right bg-white-900 lg:left-[70px] w-[400px] transform transition-transform duration-500 ease-in-out cursor-pointer ${
+                className={`fixed h-[100%] xl:left-[220px] shadow-right bg-white lg:left-[70px] w-[400px] transform transition-transform duration-500 ease-in-out cursor-pointer z-[999] ${
                   withDiv ? "translate-x-0" : "-translate-x-full"
-                } z-50`}
+                } `}
               >
                 <div className="border-b-violet-400 border-b-2 w-[100%]">
                   <h1 className="text-[30px] flex items-center justify-start py-[20px] pl-[20px]">
@@ -187,7 +187,7 @@ const Navbar = () => {
         </div>
       </div>
       <div>
-        <div className="lg:hidden block shadow-sm border-solid border-b-2 border-violet-300 fixed top-0  w-[100%] z-[999]">
+        <div className="lg:hidden block shadow-sm border-solid border-b-2 border-violet-300 fixed top-0 bg-white  w-[100%] z-[999]">
           <div className="flex justify-between mx-[20px]">
             <img src={Logo} alt="" className=" w-[50px] " />
             <div className="flex justify-center items-center gap-[10px]">
@@ -197,28 +197,61 @@ const Navbar = () => {
                 required
                 className="block w-[full] px-[5px] rounded-lg border-0 py-1.5 bg-violet-100 text-gray-900 focus:border-none"
               />
-              <GoBell size={30} className="relative top-[-3px]" />
+              <GoBell
+                className={`relative top-[-3px] cursor-pointer p-[5px] text-[38px] ${
+                  activeTab === "/notification"
+                    ? "text-violet-500 box-border border border-violet-500 rounded-lg "
+                    : ""
+                }  `}
+                onClick={() => handleClickPage("notification")}
+              />
             </div>
           </div>
         </div>
       </div>
       <div>
-        <div className="lg:hidden block shadow-sm border-solid border-t-2 border-violet-300 fixed bottom-0  w-[100%] z-[999] ">
-          <div className="flex justify-between mx-[30px] h-[50px] items-center">
+        <div className="lg:hidden block shadow-sm border-solid border-t-2 border-violet-300 fixed bottom-0 bg-white  w-[100%] z-[999] ">
+          <div className="flex justify-between mx-[30px] h-[50px] items-center ">
             <GoHomeFill
-              size={30}
-              className="relative top-[-3px] cursor-pointer "
+              className={`relative top-[-3px] cursor-pointer p-[5px] text-[40px] ${
+                activeTab === "/"
+                  ? "text-violet-500 box-border border border-violet-500 rounded-lg "
+                  : ""
+              }  `}
+              onClick={() => handleClickPage("")}
             />
             <IoCompassOutline
-              size={30}
-              className="relative top-[-3px] cursor-pointer"
+              className={`relative top-[-3px] cursor-pointer p-[5px] text-[40px] ${
+                activeTab === "/discover"
+                  ? "text-violet-500 box-border border border-violet-500 rounded-lg "
+                  : ""
+              }  `}
+              onClick={() => handleClickPage("discover")}
             />
-            <PiVideo size={30} className="relative top-[-3px]" />
+            <PiVideo
+              className={`relative top-[-3px] cursor-pointer p-[5px] text-[40px] ${
+                activeTab === "/reels"
+                  ? "text-violet-500 box-border border border-violet-500 rounded-lg "
+                  : ""
+              }  `}
+              onClick={() => handleClickPage("reels")}
+            />
             <RiMessengerLine
-              size={30}
-              className="relative top-[-3px] cursor-pointer"
+              className={`relative top-[-3px] cursor-pointer p-[5px] text-[40px] ${
+                activeTab === "/messenger"
+                  ? "text-violet-500 box-border border border-violet-500 rounded-lg "
+                  : ""
+              }  `}
+              onClick={() => handleClickPage("messenger")}
             />
-            <CiUser size={30} className="relative top-[-3px] cursor-pointer" />
+            <CiUser
+              className={`relative top-[-3px] cursor-pointer p-[5px] text-[40px] ${
+                activeTab === "/personal"
+                  ? "text-violet-500 box-border border border-violet-500 rounded-lg "
+                  : ""
+              }  `}
+              onClick={() => handleClickPage("personal")}
+            />
           </div>
         </div>
       </div>

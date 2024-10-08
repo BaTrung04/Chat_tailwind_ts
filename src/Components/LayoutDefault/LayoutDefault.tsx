@@ -6,7 +6,7 @@ const LayoutDefault = () => {
       {" "}
       <div className="lg:flex">
         <Navbar />
-        <div className="flex-[8.8] h-[5000px] mt-[50px] lg:mt-0">
+        <div className="flex-[8.8] h-[auto] mt-[50px] lg:mt-0 z-1">
           <Outlet />
         </div>
       </div>
