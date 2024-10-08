@@ -15,7 +15,7 @@ const PrivateRoute = ({ children }: PrivateRouteProps) => {
   return (
     <>
       {isLogin === undefined || isLogin === false ? (
-        <Navigate to="/login" />
+        <Navigate to="/" />
       ) : (
         children
       )}
