@@ -1,4 +1,4 @@
-const Footer = () => {
+const Footers = () => {
   return (
     <>
       <div className="flex flex-wrap gap-[10px] items-center justify-center text-[12px] lg:text-[14px] text-violet-300 px-[10px]">
@@ -22,4 +22,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Footers;

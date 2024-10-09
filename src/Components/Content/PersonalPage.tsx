@@ -10,7 +10,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { PiGenderIntersexLight } from "react-icons/pi";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Footer from "../../Common/footer";
+import Footers from "../../Common/Footers";
 const PersonalPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -69,6 +69,7 @@ const PersonalPage = () => {
                   </div>
                 </div>
               </div>
+              
             </div>
           </div>
           <div className="flex flex-col justify-center items-center lg:block">
@@ -116,7 +117,7 @@ const PersonalPage = () => {
           <div className="py-[50px]">
             <Outlet />
           </div>
-          <Footer />
+          <Footers />
         </div>
       </div>
     </>

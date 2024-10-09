@@ -4,7 +4,7 @@ import Logo from "../../assets/logo.png";
 import { PiVideo } from "react-icons/pi";
 import { RxTextAlignJustify } from "react-icons/rx";
 import { GoBell } from "react-icons/go";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoSearchOutline, IoSettingsOutline } from "react-icons/io5";
 import { IoCompassOutline } from "react-icons/io5";
 import { CiUser } from "react-icons/ci";
 import { RiMessengerLine } from "react-icons/ri";
@@ -13,10 +13,11 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import img from "../../assets/Img_login.jpg";
 import { IoCloseSharp } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { IoPartlySunnyOutline } from "react-icons/io5";
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState<string>("/");
   const [withDiv, setWithDiv] = useState<boolean>(false);
+  const [modalSeeMore, setModalSeeMore] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
@@ -31,9 +32,9 @@ const Navbar = () => {
     navigate(`/${page}`);
   };
   return (
-    <div className="z-[999]">
+    <div className="z-[999] h-[100vh]">
       <div
-        className={`xl:w-[220px] lg:w-[70px]  lg:h-[100vh] lg:sticky lg:top-0 border-1 hidden lg:block   ${
+        className={`xl:w-[220px] lg:w-[70px] lg:h-[100vh]  lg:sticky lg:top-0 border-1 hidden lg:block  ${
           withDiv === true
             ? "w-[70px] shadow-none box-border border-r-1 "
             : " shadow-xl"
@@ -55,7 +56,7 @@ const Navbar = () => {
               } `}
               onClick={() => handleClickPage("")}
             >
-              {activeTab ? (
+              {activeTab === "/" ? (
                 <GoHomeFill size={30} className="relative top-[-3px] " />
               ) : (
                 <GoHome size={30} className="relative top-[-3px] " />
@@ -99,7 +100,7 @@ const Navbar = () => {
                     <div className="text-blue-600 font-bold">Xóa tất cả</div>
                   </div>
                   <div className="flex  justify-between items-center hover:bg-violet-100 cursor-pointer px-[20px] py-[3px]">
-                    <div className="flex gap-[5px] items-center">
+                    <div className="flex gap-[5px] items-center hover:bg-violet-100">
                       <img
                         src={img}
                         alt=""
@@ -180,32 +181,88 @@ const Navbar = () => {
               <span className="hidden xl:block"> Trang cá nhân</span>
             </div>
           </div>
-          <div className="lg:flex items-center  gap-[10px] mb-[20px] p-[10px] hover:bg-violet-100 rounded-xl hidden cursor-pointer">
+          <div className="lg:flex items-center  gap-[10px] mb-[20px] p-[10px] hover:bg-violet-100 rounded-xl hidden cursor-pointer relative">
             <RxTextAlignJustify size={30} className="relative top-[-1px]" />
-            <span className="hidden xl:block">Xem thêm</span>
+            <span
+              className="hidden xl:block"
+              onClick={() => setModalSeeMore(!modalSeeMore)}
+            >
+              Xem thêm
+            </span>
+            {modalSeeMore && (
+              <div className="absolute bg-white top-[-165px] left-0 w-[220px] h-auto  shadow-2xl rounded-xl ">
+                <div className=" flex flex-col m-[10px]">
+                  <div className="flex flex-col  border-b border-b-violet-300 rounded-tl-xl rounded-tr-xl pb-[5px]">
+                    <div className="flex items-center gap-[10px] px-[20px] py-[10px] hover:bg-violet-100 hover:rounded-xl hover:text-violet-500">
+                      <IoSettingsOutline />
+                      <div>Cài đặt</div>
+                    </div>
+                    <div className="flex items-center gap-[10px] px-[20px] py-[10px] hover:bg-violet-100 hover:rounded-xl hover:text-violet-500">
+                      <IoPartlySunnyOutline />
+                      <div>Chuyển chế độ</div>
+                    </div>
+                  </div>
+                  <div className="px-[20px] py-[10px] hover:bg-violet-100 hover:rounded-xl hover:text-violet-500 ">
+                    Đăng xuất
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
       <div>
         <div className="lg:hidden block shadow-sm border-solid border-b-2 border-violet-300 fixed top-0 bg-white  w-[100%] z-[999]">
-          <div className="flex justify-between mx-[20px]">
+          <div className="flex justify-between mx-[20px] items-center">
             <img src={Logo} alt="" className=" w-[50px] " />
-            <div className="flex justify-center items-center gap-[10px]">
-              <input
-                type="text"
-                placeholder="Tìm kiếm"
-                required
-                className="block w-[full] px-[5px] rounded-lg border-0 py-1.5 bg-violet-100 text-gray-900 focus:border-none"
-              />
-              <GoBell
-                className={`relative top-[-3px] cursor-pointer p-[5px] text-[38px] ${
-                  activeTab === "/notification"
-                    ? "text-violet-500 box-border border border-violet-500 rounded-lg "
-                    : ""
-                }  `}
-                onClick={() => handleClickPage("notification")}
-              />
-            </div>
+            {activeTab === "/personal" ? (
+              <>
+                <div>Bá trung</div>
+                <div className="flex relative">
+                  <RxTextAlignJustify
+                    size={30}
+                    className="relative top-[-1px]"
+                    onClick={() => setModalSeeMore(!modalSeeMore)}
+                  />
+                  {modalSeeMore && (
+                    <div className="absolute bg-white bottom-[-120px] right-0 w-[150px] h-auto  shadow-2xl rounded-xl ">
+                      <div className=" flex flex-col m-[5px] text-[14px]">
+                        <div className="flex flex-col  border-b border-b-violet-300 rounded-tl-xl rounded-tr-xl pb-[5px]">
+                          <div className="flex items-center gap-[10px] px-[10px] py-[5px] hover:bg-violet-100 hover:rounded-xl hover:text-violet-500">
+                            <IoSettingsOutline />
+                            <div>Cài đặt</div>
+                          </div>
+                          <div className="flex items-center gap-[10px] px-[10px] py-[5px] hover:bg-violet-100 hover:rounded-xl hover:text-violet-500">
+                            <IoPartlySunnyOutline />
+                            <div>Chuyển chế độ</div>
+                          </div>
+                        </div>
+                        <div className="px-[10px] py-[5px] hover:bg-violet-100 hover:rounded-xl hover:text-violet-500 ">
+                          Đăng xuất
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="flex justify-center items-center gap-[10px]">
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  required
+                  className="block w-[full] px-[5px] rounded-lg border-0 py-1.5 bg-violet-100 text-gray-900 focus:border-none"
+                />
+                <GoBell
+                  className={`relative top-[-3px] cursor-pointer p-[5px] text-[38px] ${
+                    activeTab === "/notification"
+                      ? "text-violet-500 box-border border border-violet-500 rounded-lg "
+                      : ""
+                  }  `}
+                  onClick={() => handleClickPage("notification")}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
