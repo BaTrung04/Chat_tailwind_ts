@@ -17,6 +17,7 @@ import { IoPartlySunnyOutline } from "react-icons/io5";
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState<string>("/");
   const [withDiv, setWithDiv] = useState<boolean>(false);
+  const [withDivNoti, setWithDivNoti] = useState<boolean>(false);
   const [modalSeeMore, setModalSeeMore] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,16 +26,24 @@ const Navbar = () => {
   }, [location]);
   const handleClickSearch = () => {
     setWithDiv(!withDiv);
+    setWithDivNoti(false);
     setActiveTab("s");
+  };
+
+  const handleClickNotification = () => {
+    setWithDivNoti(!withDivNoti);
+    setWithDiv(false);
+    setActiveTab("notification");
   };
   const handleClickPage = (page: string) => {
     setWithDiv(false);
+    setWithDivNoti(false);
     navigate(`/${page}`);
   };
   return (
-    <div className="z-[999] h-[100vh]">
+    <div className="z-[999] fixed top-0 bottom-0 left-0">
       <div
-        className={`xl:w-[220px] lg:w-[70px] lg:h-[100vh]  lg:sticky lg:top-0 border-1 hidden lg:block  ${
+        className={`xl:w-[220px] lg:w-[70px] lg:h-[100vh] lg:sticky lg:top-0 border-1 hidden lg:block  ${
           withDiv === true
             ? "w-[70px] shadow-none box-border border-r-1 "
             : " shadow-xl"
@@ -51,7 +60,7 @@ const Navbar = () => {
             />
             {/* trang chủ */}
             <div
-              className={`flex items-center gap-[10px] p-[10px] hover:bg-violet-100 rounded-xl lg:mt-[20px] xl:mt-0 cursor-pointer ${
+              className={`flex items-center gap-[10px] p-[10px] hover:bg-violet-100 rounded-xl  xl:mt-0 cursor-pointer ${
                 activeTab === "/" ? "text-violet-600 text-[20px] font-bold" : ""
               } `}
               onClick={() => handleClickPage("")}
@@ -63,6 +72,7 @@ const Navbar = () => {
               )}
               <span className="hidden xl:block">Trang Chủ</span>
             </div>
+
             {/* search */}
             <div
               className={`flex items-center gap-[10px] p-[10px] hover:bg-violet-100 rounded-xl cursor-pointer  ${
@@ -73,6 +83,7 @@ const Navbar = () => {
               <IoSearchOutline size={30} className="relative top-[-3px]" />
               <span className="hidden xl:block">Tìm kiếm</span>
             </div>
+
             {/* modal search */}
             {withDiv && (
               <div
@@ -99,7 +110,7 @@ const Navbar = () => {
                     <div className="font-bold ">Gần đây</div>
                     <div className="text-blue-600 font-bold">Xóa tất cả</div>
                   </div>
-                  <div className="flex  justify-between items-center hover:bg-violet-100 cursor-pointer px-[20px] py-[3px]">
+                  <div className="flex  justify-between items-center cursor-pointer px-[20px] py-[3px]">
                     <div className="flex gap-[5px] items-center hover:bg-violet-100">
                       <img
                         src={img}
@@ -118,6 +129,7 @@ const Navbar = () => {
                 </div>
               </div>
             )}
+
             {/* kham pha */}
             <div
               className={`flex items-center gap-[10px] p-[10px] hover:bg-violet-100 rounded-xl lg:mt-[20px] xl:mt-0 cursor-pointer z-10 ${
@@ -130,6 +142,7 @@ const Navbar = () => {
               <IoCompassOutline size={30} className="relative top-[-3px]" />
               <span className="hidden xl:block">Khám Phá</span>
             </div>
+
             {/* reels */}
             <div
               className={`flex items-center gap-[10px] p-[10px] hover:bg-violet-100 rounded-xl lg:mt-[20px] xl:mt-0 cursor-pointer  ${
@@ -142,18 +155,90 @@ const Navbar = () => {
               <PiVideo size={30} className="relative top-[-3px]" />
               <span className="hidden xl:block">Reels</span>
             </div>
+
             {/* thong bao */}
             <div
               className={`flex items-center gap-[10px] p-[10px] hover:bg-violet-100 rounded-xl lg:mt-[20px] xl:mt-0 cursor-pointer ${
-                activeTab === "/notification"
+                activeTab === "notification"
                   ? "text-violet-600 text-[20px] font-bold"
                   : ""
               } `}
-              onClick={() => handleClickPage("notification")}
+              onClick={() => handleClickNotification()}
             >
               <GoBell size={30} className="relative top-[-3px]" />
               <span className="hidden xl:block">Thông báo</span>
             </div>
+
+            {/* modal thong bao */}
+            {withDivNoti && (
+              <div
+                className={`fixed h-[100%] xl:left-[220px] shadow-right bg-white lg:left-[70px] w-[400px] transform transition-transform duration-500 ease-in-out cursor-pointer z-[999] ${
+                  withDivNoti ? "translate-x-0" : "-translate-x-full"
+                } `}
+              >
+                <div className="border-b-violet-400 border-b-2 w-[100%]">
+                  <h1 className="text-[30px] flex items-center justify-start py-[20px] pl-[20px]">
+                    Thông báo
+                  </h1>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Tìm kiếm"
+                      required
+                      className="block w-[88%] px-[5px] rounded-lg border-0 py-1.5 bg-violet-100 text-gray-900 focus:border-none my-[20px] ml-[20px]"
+                    />
+                    <IoIosCloseCircleOutline className="absolute bottom-[8px] right-[33px] hover:bg-violet-800 hover:text-white rounded-[999px]" />
+                  </div>
+                </div>
+                <div className="">
+                  <div className="flex justify-between items-center px-[20px] py-[20px] ">
+                    <div className="font-bold ">Gần đây</div>
+                    <div className="text-blue-600 font-bold">Xóa tất cả</div>
+                  </div>
+                  <div className="flex flex-col gap-[10px]  justify-between items-center cursor-pointer px-[20px] py-[3px]">
+                    <div className="flex gap-[5px] items-center hover:bg-violet-100 mt-[5px] p-[5px] rounded-md">
+                      <img
+                        src={img}
+                        alt=""
+                        className="w-[53px] h-[53px] object-cover rounded-[999px] border-2 border-violet-800"
+                      />
+                      <div>
+                        <div className="line-clamp-2">
+                          <span className="text-violet-500 font-bold">
+                            Bas trung
+                          </span>{" "}
+                          đã gửi lời mời kết bạn cho bạn sdddddddddddddddddddd
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Quidem modi fuga autem, minus nam voluptas
+                          reprehenderit ad qui facilis unde nobis rem assumenda
+                          quae quo ab doloremque quis dolorum corrupti?
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-[5px] items-center hover:bg-violet-100 mt-[5px] p-[5px] rounded-md">
+                      <img
+                        src={img}
+                        alt=""
+                        className="w-[53px] h-[53px] object-cover rounded-[999px] border-2 border-violet-800"
+                      />
+                      <div>
+                        <div className="line-clamp-2">
+                          <span className="text-violet-500 font-bold">
+                            Bas trung
+                          </span>{" "}
+                          đã gửi lời mời kết bạn cho bạn sdddddddddddddddddddd
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Quidem modi fuga autem, minus nam voluptas
+                          reprehenderit ad qui facilis unde nobis rem assumenda
+                          quae quo ab doloremque quis dolorum corrupti?
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* tin nhan */}
             <div
               className={`flex items-center gap-[10px] p-[10px] hover:bg-violet-100 rounded-xl lg:mt-[20px] xl:mt-0 cursor-pointer ${
@@ -166,6 +251,7 @@ const Navbar = () => {
               <RiMessengerLine size={30} className="relative top-[-3px]" />
               <span className="hidden xl:block">Tin nhắn</span>
             </div>
+
             {/* trang ca nhan */}
             <div
               className={`flex items-center gap-[10px] p-[10px] hover:bg-violet-100 rounded-xl lg:mt-[20px] xl:mt-0 cursor-pointer ${
@@ -181,14 +267,12 @@ const Navbar = () => {
               <span className="hidden xl:block"> Trang cá nhân</span>
             </div>
           </div>
-          <div className="lg:flex items-center  gap-[10px] mb-[20px] p-[10px] hover:bg-violet-100 rounded-xl hidden cursor-pointer relative">
+          <div
+            className="lg:flex items-center  gap-[10px] mb-[20px] p-[10px] hover:bg-violet-100 rounded-xl hidden cursor-pointer relative "
+            onClick={() => setModalSeeMore(!modalSeeMore)}
+          >
             <RxTextAlignJustify size={30} className="relative top-[-1px]" />
-            <span
-              className="hidden xl:block"
-              onClick={() => setModalSeeMore(!modalSeeMore)}
-            >
-              Xem thêm
-            </span>
+            <span className="hidden xl:block">Xem thêm</span>
             {modalSeeMore && (
               <div className="absolute bg-white top-[-165px] left-0 w-[220px] h-auto  shadow-2xl rounded-xl ">
                 <div className=" flex flex-col m-[10px]">

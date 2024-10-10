@@ -24,9 +24,9 @@ const PersonalPage = () => {
   };
   return (
     <>
-      <div className="lg:container">
+      <div className="lg:container xl:ml-[220px] lg:ml-[70px]">
         <div className="border-b border-b-violet-200 pb-[50px] ">
-          <div className="flex items-center justify-center  lg:my-[50px] py-[20px]">
+          <div className="flex items-center justify-center  lg:mb-[50px] py-[20px]">
             <div className="flex lg:flex-row flex-row items-center gap-[30px] justify-center">
               <img
                 src={bg}
@@ -69,7 +69,6 @@ const PersonalPage = () => {
                   </div>
                 </div>
               </div>
-              
             </div>
           </div>
           <div className="flex flex-col justify-center items-center lg:block">

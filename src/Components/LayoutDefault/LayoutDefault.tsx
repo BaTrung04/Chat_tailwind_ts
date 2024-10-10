@@ -4,10 +4,9 @@ const LayoutDefault = () => {
   return (
     <>
       {" "}
-      <div className="lg:flex h-[auto]">
+      <div className="">
         <Navbar />
-
-        <div className="flex-[8.8] h-[auto] mt-[50px] lg:mt-0 z-1">
+        <div className="  mt-[50px] lg:mt-0 z-1 overflow-scroll h-[5000px] overflow-x-none">
           <Outlet />
         </div>
       </div>

@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import Discover from "./Components/Content/Discover";
 import Reels from "./Components/Content/Reels";
-import Notification from "./Components/Content/Notification";
 import Messenger from "./Components/Content/Messenger";
 import PersonalPage from "./Components/Content/PersonalPage";
 import Post from "./Components/Content/comon/Post";
@@ -49,7 +48,6 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/discover" element={<Discover />} />
             <Route path="/reels" element={<Reels />} />
-            <Route path="/notification" element={<Notification />} />
             <Route path="/messenger" element={<Messenger />} />
             <Route path="/personal" element={<PersonalPage />}>
               <Route index element={<Post />} />
