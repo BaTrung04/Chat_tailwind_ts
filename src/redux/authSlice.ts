@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import persistConfig from "./persistConfig";
+import storage from "redux-persist/lib/storage";
 
 interface User {
   id: string;
@@ -49,7 +51,7 @@ const authSlice = createSlice({
     logOutSuccess: (state) => {
       state.login.isFetching = false;
       state.login.currentUser = null;
-      //  storage.removeItem(`persist:${persistConfig.key}`);
+      storage.removeItem(`persist:${persistConfig.key}`);
       state.login.isLogin = false;
       state.login.error = false;
     },
@@ -70,11 +72,7 @@ const authSlice = createSlice({
     //     state.login.currentUser.user.img_avatar_url = action.payload;
     //   }
     // },
-    // uploadBackground: (state, action) => {
-    //   if (state.login.currentUser) {
-    //     state.login.currentUser.user.img_background_url = action.payload;
-    //   }
-    // },
+
   },
 });
 const { actions, reducer } = authSlice;

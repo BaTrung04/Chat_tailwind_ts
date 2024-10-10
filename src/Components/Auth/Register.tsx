@@ -4,7 +4,19 @@ import Logo from "../../assets/logo.png";
 import Datepicker from "react-tailwindcss-datepicker";
 import { useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-
+import { registerAuthApi } from "../../services/modules/user";
+import { useDispatch } from "react-redux";
+import { registerFailed, registerSuccess } from "../../redux/userSlice";
+import moment from "moment";
+import { toast } from "react-toastify";
+interface INewUser {
+  email: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+  date_of_birth: string | null;
+  gender: string;
+}
 const Register = () => {
   const [value, setValue] = useState({
     startDate: null,
@@ -12,14 +24,43 @@ const Register = () => {
   });
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState<Boolean>(false);
-
+  const [email, setEmail] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const dispatch = useDispatch();
   const handleValueChange = (newValue: any) => {
     console.log("Selected Date: ", newValue);
     setValue(newValue);
+    setDate(newValue.startDate);
   };
-
+  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setGender(e.target.value);
+  };
   const handleClick = (path: string) => {
     navigate(`${path}`);
+  };
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const formattedDate = date ? moment(date).format("YYYY-MM-DD") : null;
+    const newUser: INewUser = {
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+      password: password,
+      date_of_birth: formattedDate,
+      gender: gender,
+    };
+    try {
+      await registerAuthApi(newUser);
+      dispatch(registerSuccess());
+      toast.success("🦄 Bạn đã đăng ký tài khoản thành công!");
+      navigate("/login");
+    } catch (err) {
+      dispatch(registerFailed());
+    }
   };
 
   return (
@@ -39,7 +80,7 @@ const Register = () => {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-              <form action="#" method="POST" className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="flex justify-between gap-[10px]">
                   <div>
                     <label
@@ -50,13 +91,12 @@ const Register = () => {
                     </label>
                     <div className="mt-2">
                       <input
-                        id="email"
-                        name="email"
-                        type="email"
                         placeholder="First name"
+                        value={firstName}
                         required
                         autoComplete="email"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
+                        onChange={(e) => setFirstName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -69,13 +109,12 @@ const Register = () => {
                     </label>
                     <div className="mt-2">
                       <input
-                        id="email"
-                        name="email"
-                        type="email"
+                        type={lastName}
                         placeholder="Last name"
                         required
                         autoComplete="email"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
+                        onChange={(e) => setLastName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -89,13 +128,12 @@ const Register = () => {
                   </label>
                   <div className="mt-2">
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
+                      value={email}
                       placeholder="Email"
                       required
                       autoComplete="email"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-[5px]"
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </div>
@@ -110,13 +148,13 @@ const Register = () => {
                   </div>
                   <div className="mt-2 relative">
                     <input
-                      id="password"
-                      name="password"
+                      value={password}
                       type={showPass ? "text" : "password"}
                       placeholder="password"
                       required
                       autoComplete="current-password"
                       className="block w-full px-[5px] rounded-md border-0 py-1.5  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                     {showPass ? (
                       <FaRegEye
@@ -162,6 +200,7 @@ const Register = () => {
                       name="country"
                       autoComplete="country-name"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                      onChange={handleGenderChange}
                     >
                       <option>Nam</option>
                       <option>Nữ</option>
@@ -180,7 +219,7 @@ const Register = () => {
               </form>
 
               <p className="mt-10 text-center text-sm text-gray-500">
-                Not a member?{" "}
+                Hãy tham gia cùng chúng tôi?{" "}
                 <a
                   href="#"
                   className="font-semibold leading-6 text-violet-600 hover:text-indigo-500"

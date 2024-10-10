@@ -14,6 +14,10 @@ import img from "../../assets/Img_login.jpg";
 import { IoCloseSharp } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoPartlySunnyOutline } from "react-icons/io5";
+import { loyOutAuthApi } from "../../services/modules/auth";
+import { useDispatch } from "react-redux";
+import { logOutFailed, logOutSuccess } from "../../redux/authSlice";
+import { toast } from "react-toastify";
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState<string>("/");
   const [withDiv, setWithDiv] = useState<boolean>(false);
@@ -21,6 +25,7 @@ const Navbar = () => {
   const [modalSeeMore, setModalSeeMore] = useState<boolean>(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   useEffect(() => {
     setActiveTab(location.pathname);
   }, [location]);
@@ -39,6 +44,18 @@ const Navbar = () => {
     setWithDiv(false);
     setWithDivNoti(false);
     navigate(`/${page}`);
+  };
+
+  const handleClickLogOut = async () => {
+    try {
+      await loyOutAuthApi();
+      localStorage.removeItem("accessToken");
+      dispatch(logOutSuccess());
+      toast.success("Đăng xuất thành công!!!");
+      navigate("/login");
+    } catch (err) {
+      dispatch(logOutFailed());
+    }
   };
   return (
     <div className="z-[999] fixed top-0 bottom-0 left-0">
@@ -267,8 +284,9 @@ const Navbar = () => {
               <span className="hidden xl:block"> Trang cá nhân</span>
             </div>
           </div>
+          {/* xem them */}
           <div
-            className="lg:flex items-center  gap-[10px] mb-[20px] p-[10px] hover:bg-violet-100 rounded-xl hidden cursor-pointer relative "
+            className="lg:flex items-center  gap-[10px] mb-[20px] p-[10px] hover:bg-violet-100 rounded-xl hidden cursor-pointer relative z-[999]"
             onClick={() => setModalSeeMore(!modalSeeMore)}
           >
             <RxTextAlignJustify size={30} className="relative top-[-1px]" />
@@ -286,7 +304,10 @@ const Navbar = () => {
                       <div>Chuyển chế độ</div>
                     </div>
                   </div>
-                  <div className="px-[20px] py-[10px] hover:bg-violet-100 hover:rounded-xl hover:text-violet-500 ">
+                  <div
+                    className="px-[20px] py-[10px] hover:bg-violet-100 hover:rounded-xl hover:text-violet-500 "
+                    onClick={() => handleClickLogOut()}
+                  >
                     Đăng xuất
                   </div>
                 </div>

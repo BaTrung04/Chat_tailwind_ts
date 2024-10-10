@@ -10,6 +10,7 @@ const LayoutDefault = () => {
           <Outlet />
         </div>
       </div>
+    
     </>
   );
 };

@@ -69,9 +69,9 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center my-[20px]">
             <div className="flex flex-col items-center justify-center lg:w-[470px] lg:h-[720px] sm:w-[400px] sm:h-[600px] w-[full] ">
-              <div>
+              <div className="">
                 {" "}
                 <div className="px-[5px] lg:px-[0px] lg:mx-[0px] py-[10px] flex justify-between items-center mx-[10px]">
                   <div className="flex gap-[5px] items-center text-[14px] ">

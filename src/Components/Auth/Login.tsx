@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginFailed, loginStart, loginSuccess } from "../../redux/authSlice";
 import { loginAuthApi } from "../../services/modules/auth";
 import { RootState } from "../../redux/store";
+import { toast, ToastContainer } from "react-toastify";
 
 interface User {
   username: string;
@@ -35,11 +36,9 @@ const Login = () => {
     dispatch(loginStart());
     try {
       const res = await loginAuthApi(user);
-      console.log(res);
-
       dispatch(loginSuccess(res));
       localStorage.setItem("accessToken", res.accessToken);
-
+      toast.success("🦄 Đăng nhập thành công!");
       if (res.user.isTwoFactorAuthenticationEnabled === true && isLogin) {
         navigate("/auth");
       } else {
@@ -106,7 +105,7 @@ const Login = () => {
                         className="font-semibold text-violet-600 hover:text-indigo-500"
                         onClick={() => handleClick("forget-password")}
                       >
-                        Quân mật khẩu?
+                        Quên mật khẩu?
                       </a>
                     </div>
                   </div>
@@ -146,7 +145,7 @@ const Login = () => {
               </form>
 
               <p className="mt-10 text-center text-sm text-gray-500">
-                Not a member?{" "}
+                Bạn cần tìm người trò chuyện?{" "}
                 <a
                   href="#"
                   className="font-semibold leading-6 text-violet-600 hover:text-indigo-500"
@@ -159,6 +158,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };
