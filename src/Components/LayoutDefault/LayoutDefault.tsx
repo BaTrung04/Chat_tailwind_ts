@@ -4,13 +4,12 @@ const LayoutDefault = () => {
   return (
     <>
       {" "}
-      <div className="">
+      <div className=" overflow-x-none">
         <Navbar />
-        <div className="  mt-[50px] lg:mt-0 z-1 overflow-scroll h-[5000px] overflow-x-none">
+        <div className=" mt-[50px] lg:mt-0 z-1  h-[auto] overflow-x-none">
           <Outlet />
         </div>
       </div>
-    
     </>
   );
 };
